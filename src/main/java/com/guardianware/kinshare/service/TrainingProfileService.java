@@ -25,7 +25,6 @@ public class TrainingProfileService {
                 .collect(Collectors.toList());
     }
 
-
     public TrainingProfileDTO getTrainingProfileById(Long id) {
         return trainingProfileRepository.findById(id)
                 .map(this::convertToDTO)
@@ -61,9 +60,12 @@ public class TrainingProfileService {
         dto.setSophistication(trainingProfile.getSophistication());
         dto.setFrequency(trainingProfile.getFrequency());
         try {
-            dto.setCommunicationChannel(objectMapper.readValue(trainingProfile.getCommunicationChannel().toString(), List.class)); // Convert JSON to List
-            dto.setCommunicationContext(objectMapper.readValue(trainingProfile.getCommunicationContext().toString(), List.class)); // Convert JSON to List
-        } catch (JsonProcessingException e) {
+            // Convert String to List<String> for communicationChannel and
+            // communicationContext
+            // Assuming the String is a comma-separated list
+            dto.setCommunicationChannel(List.of(trainingProfile.getCommunicationChannel().split(",")));
+            dto.setCommunicationContext(List.of(trainingProfile.getCommunicationContext().split(",")));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         dto.setTimeOfCommunication(trainingProfile.getTimeOfCommunication());
@@ -76,9 +78,11 @@ public class TrainingProfileService {
         trainingProfile.setProfileName(dto.getProfileName());
         trainingProfile.setSophistication(dto.getSophistication());
         trainingProfile.setFrequency(dto.getFrequency());
-            trainingProfile.setCommunicationChannel(dto.getCommunicationChannel()); // Set List<String> directly
-            trainingProfile.setCommunicationContext(dto.getCommunicationContext()); // Set List<String> directly
         trainingProfile.setTimeOfCommunication(dto.getTimeOfCommunication());
+        // Convert List<String> to String for communicationChannel and
+        // communicationContext
+        trainingProfile.setCommunicationChannel(String.join(",", dto.getCommunicationChannel()));
+        trainingProfile.setCommunicationContext(String.join(",", dto.getCommunicationContext()));
         return trainingProfile;
     }
 }

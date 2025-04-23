@@ -2,7 +2,6 @@ package com.guardianware.kinshare.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "training_profiles")
@@ -24,14 +23,14 @@ public class TrainingProfile {
     @Column(name = "frequency", nullable = false, length = 20)
     private String frequency;
 
-    @Column(name = "communication_channel", nullable = false, columnDefinition = "JSON")
-    private List<String> communicationChannel;
+    @Column(name = "communication_channel", nullable = false, length = 255)
+    private String communicationChannel;
 
     @Column(name = "time_of_communication", nullable = false, length = 50)
     private String timeOfCommunication;
 
-    @Column(name = "communication_context", nullable = false, columnDefinition = "JSON")
-    private List<String> communicationContext;
+    @Column(name = "communication_context", nullable = false, length = 255)
+    private String communicationContext;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -80,11 +79,11 @@ public class TrainingProfile {
         this.frequency = frequency;
     }
 
-    public List<String> getCommunicationChannel() {
+    public String getCommunicationChannel() {
         return communicationChannel;
     }
 
-    public void setCommunicationChannel(List<String> communicationChannel) {
+    public void setCommunicationChannel(String communicationChannel) {
         this.communicationChannel = communicationChannel;
     }
 
@@ -96,11 +95,11 @@ public class TrainingProfile {
         this.timeOfCommunication = timeOfCommunication;
     }
 
-    public List<String> getCommunicationContext() {
+    public String getCommunicationContext() {
         return communicationContext;
     }
 
-    public void setCommunicationContext(List<String> communicationContext) {
+    public void setCommunicationContext(String communicationContext) {
         this.communicationContext = communicationContext;
     }
 
