@@ -1,7 +1,5 @@
 package com.guardianware.kinshare.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guardianware.kinshare.dto.TrainingProfileDTO;
 import com.guardianware.kinshare.entity.TrainingProfile;
 import com.guardianware.kinshare.repository.TrainingProfileRepository;
@@ -10,14 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class TrainingProfileService {
 
     @Autowired
     private TrainingProfileRepository trainingProfileRepository;
-
-    private final ObjectMapper objectMapper = new ObjectMapper(); // For JSON conversion
 
     public List<TrainingProfileDTO> getAllTrainingProfiles() {
         return trainingProfileRepository.findAll().stream()
@@ -31,9 +28,32 @@ public class TrainingProfileService {
                 .orElse(null);
     }
 
-    public TrainingProfileDTO createTrainingProfile(TrainingProfileDTO trainingProfileDTO) {
-        TrainingProfile trainingProfile = convertToEntity(trainingProfileDTO);
-        TrainingProfile savedProfile = trainingProfileRepository.save(trainingProfile);
+    public TrainingProfileDTO saveTrainingProfile(TrainingProfileDTO trainingProfileDTO) {
+        Optional<TrainingProfile> existingProfileOpt = trainingProfileRepository
+                .findByUserId(trainingProfileDTO.getUserId());
+
+        TrainingProfile trainingProfile;
+        TrainingProfile savedProfile = null;
+
+        if (existingProfileOpt.isPresent()) {
+            // Update the existing profile
+            TrainingProfile existingProfile = existingProfileOpt.get();
+            trainingProfile = convertToEntity(trainingProfileDTO);
+            trainingProfile.setId(existingProfile.getId());
+            savedProfile = trainingProfileRepository.updateTrainingProfileByUserId(
+                    trainingProfile.getUserId(),
+                    trainingProfile.getProfileName(),
+                    trainingProfile.getSophistication(),
+                    trainingProfile.getFrequency(),
+                    trainingProfile.getTimeOfCommunication(),
+                    trainingProfile.getCommunicationChannel(),
+                    trainingProfile.getCommunicationContext());
+        } else {
+            // Create a new profile
+            trainingProfile = convertToEntity(trainingProfileDTO);
+            savedProfile = trainingProfileRepository.save(trainingProfile);
+        }
+
         return convertToDTO(savedProfile);
     }
 

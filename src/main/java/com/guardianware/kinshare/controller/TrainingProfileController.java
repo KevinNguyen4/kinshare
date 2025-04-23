@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/training-profile")
@@ -21,18 +20,9 @@ public class TrainingProfileController {
     public ResponseEntity<String> saveTrainingProfile(@RequestBody TrainingProfileDTO trainingProfileDTO) {
         System.out.println("Request received: " + trainingProfileDTO); // Log the incoming request
 
-        // Print data types of all parts of trainingProfileDTO
-        System.out.println("Data Types:");
-        System.out.println("profileName: " + (trainingProfileDTO.getProfileName() != null ? trainingProfileDTO.getProfileName().getClass().getName() : "null"));
-        System.out.println("sophistication: " + Integer.class.getName());
-        System.out.println("frequency: " + (trainingProfileDTO.getFrequency() != null ? trainingProfileDTO.getFrequency().getClass().getName() : "null"));
-        System.out.println("communicationChannel: " + (trainingProfileDTO.getCommunicationChannel() != null ? trainingProfileDTO.getCommunicationChannel().getClass().getName() : "null"));
-        System.out.println("timeOfCommunication: " + (trainingProfileDTO.getTimeOfCommunication() != null ? trainingProfileDTO.getTimeOfCommunication().getClass().getName() : "null"));
-        System.out.println("communicationContext: " + (trainingProfileDTO.getCommunicationContext() != null ? trainingProfileDTO.getCommunicationContext().getClass().getName() : "null"));
-
         try {
             System.out.println("Received Training Profile: " + trainingProfileDTO); // Debugging log
-            trainingProfileService.createTrainingProfile(trainingProfileDTO);
+            trainingProfileService.saveTrainingProfile(trainingProfileDTO);
             return ResponseEntity.ok("Training profile saved successfully!");
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception for debugging
