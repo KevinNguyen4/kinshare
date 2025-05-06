@@ -15,15 +15,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS with your custom configuration
-            .csrf(csrf -> csrf.disable()); // Disable CSRF if necessary
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS with your custom
+                                                                                   // configuration
+                .csrf(csrf -> csrf.disable()); // Disable CSRF if necessary
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://171.33.33.22:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

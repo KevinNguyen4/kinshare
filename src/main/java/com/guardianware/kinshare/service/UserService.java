@@ -19,6 +19,12 @@ public class UserService {
         return userRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    public UserDTO getUserById(Long id) {
+        return userRepository.findById(id)
+                .map(this::convertToDTO)
+                .orElse(null);
+    }
+
     public UserDTO createUser(UserDTO userDTO) {
         User user = convertToEntity(userDTO);
         User savedUser = userRepository.save(user);

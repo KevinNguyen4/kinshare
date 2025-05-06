@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/training-profile")
-@CrossOrigin(origins = "http://localhost:3000") // Allow requests from the frontend
+@CrossOrigin(origins = "${CORS_ALLOW_HOST}") // Get allowed origins from environment variable
 public class TrainingProfileController {
     @Autowired
     private TrainingProfileService trainingProfileService;
