@@ -18,7 +18,9 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+        List<UserDTO> users = userService.getAllUsers();
+        users.forEach(System.out::println); // Print each user to the screen
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
