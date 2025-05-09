@@ -95,6 +95,13 @@
      <artifactId>spring-boot-configuration-processor</artifactId>
      <version>2.1.7.RELEASE</version>
    </dependency>
+   
+   <!-- SendGrid Email API -->
+   <dependency>
+       <groupId>com.sendgrid</groupId>
+       <artifactId>sendgrid-java</artifactId>
+       <version>4.9.3</version>
+   </dependency>
  </dependencies>
 
 	<build>
